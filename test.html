@@ -1,0 +1,27 @@
+<html>
+    <head>
+    <link href="twitter.css" rel="stylesheet"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script src="twitter.js" charset="utf-8"></script>
+<script type="text/javascript">
+  jQuery(function($){
+    $("#tweet").tweet({
+      join_text: "auto",
+      username: "seaofclouds",
+      avatar_size: 48,
+      count: 3,
+      auto_join_text_default: "we said,",
+      auto_join_text_ed: "we",
+      auto_join_text_ing: "we were",
+      auto_join_text_reply: "we replied",
+      auto_join_text_url: "we were checking out",
+      loading_text: "loading tweets..."
+    });
+  });
+</script>
+    </head>
+    <body>
+        <h1>Hello</h1>
+        <div id="tweet"></div>
+    </body>
+</html>
