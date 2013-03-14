@@ -18,8 +18,6 @@ dojo.require("dojox.xml.parser");
 dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 
 	widgetName: "TwitterWidget",
-	contextRoot: "/jnWidgets/OtherReports",
-	debug: true,
 	
 	onLoad: function() {
 		this.log("Starting widget");
@@ -36,7 +34,7 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 		}
 	},
 	
-	processXML = function(document) {
+	processXML: function(document) {
 		this.log("Successfully downloaded the service document");
 		var extensionURL = this.getExtensionURL(document, "twitterName");
 		this.log("ExtensionURL=" + extensionURL);
@@ -46,7 +44,7 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 		request.addErrback(this, "processError");
 	},
 	
-	getExtensionURL = function(doc, extensionName) {
+	getExtensionURL: function(doc, extensionName) {
 		var links = doc.getElementsByTagName("link");
 		this.log("Searching for extension URL, found links=" + links.length);
 		for (var i=0; i < links.length; i++) {
@@ -62,7 +60,7 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 		return null;
 	},
 	
-	processExtension = function(extensionValue) {
+	processExtension: function(extensionValue) {
 		try {
 			this.log("Extension value=|" + extensionValue + "|");
 			this.log(extensionValue.length);
@@ -87,18 +85,18 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 		
 	},
 	
-	updateWidget = function(message) {
+	updateWidget: function(message) {
 		var root = dojo.byId("jnTwitterDIV").innerHTML = message;
 	},
 	
-	processError = function(data) {
+	processError: function(data) {
 		this.log("In error callback: " + data);
 		var table = "<table><tr><td><img src='https://raw.github.com/justnudge/twitter-widget/master/status-error.png' alt='error' /></td>";
 		table = table + "<td>" + this.getMessage("com.justnudge.common.error") + "</td></tr></table>";
 		this.updateWidget(table);
 	},
 	
-	log = function(message) {
+	log: function(message) {
 		console.log(this.widgetName + ": " + message);
 	},
 	
