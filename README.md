@@ -7,6 +7,7 @@ To install the Twitter Widget for IBM Connections you need to do the following:
 2. Add the Twitter field to the profile edit page so that users can add their twitter name.
 3. Add the Twitter widget to the profile in view so that the twitter feed can be display.
 4. Create the messages files.
+5. Add the URL into the ajax proxy.
 5. Re-synchronize and restart the server.
 
 **NOTE:** A list of sample configuration files are included, showing their before and after appearance.  If you need assistance setting up the environment it is recommended that you download the files and diff them with each other (so that you can see the before and after) and also with your configuration.
@@ -45,16 +46,40 @@ Details on how to install a widget are available [here](http://www-10.lotus.com/
 
 The widget-config.xml needs two additions in the "profilesView" section create the widget definition:
 
-    <widgetDef defId="com.justnudge.twitter" 
+    <widgetDef defId="jnTwitterWidget" 
 			   bundleRefId="jnmessages"
 			   url="https://github.com/justnudge/twitter-widget/raw/master/TwitterWidget.xml" 
 			   modes="view" />
 
 And then add the widget to the page:
 
-    <widgetInstance uiLocation="tabsWidget1" defIdRef="com.justnudge.twitter"/>
+    <widgetInstance uiLocation="tabsWidget1" defIdRef="jnTwitterWidget"/>
 
 See the widget-config.xml file for more information.
+
+Add the URL into the ajax proxy.
+--
+The procedure for performing this operation is defined [here](http://www-10.lotus.com/ldd/lcwiki.nsf/xpDocViewer.xsp?lookupName=IBM+Connections+4.0+documentation#action=openDocument&res_title=Configuring_the_AJAX_proxy_ic40&content=pdcontent "Ajax Proxy").
+
+The change that needs to be made to the proxy-config.tpl is as follows:
+
+    <proxy:policy url="https://github.com/*" acf="none" basic-auth-support="false" auth-support="false">
+		<proxy:actions>
+            <proxy:method>GET</proxy:method>
+        </proxy:actions>
+        <proxy:headers>
+            <proxy:header>User-Agent</proxy:header>
+            <proxy:header>Accept.*</proxy:header>
+            <proxy:header>Content.*</proxy:header>
+            <proxy:header>Authorization.*</proxy:header>
+            <proxy:header>X-Method-Override</proxy:header>
+            <proxy:header>If-.*</proxy:header>
+            <proxy:header>Pragma</proxy:header>
+            <proxy:header>Cache-Control</proxy:header>
+            <proxy:header>X-Update-Nonce</proxy:header>
+        </proxy:headers>
+	</proxy:policy>
+
 
 Create the messages file
 --------

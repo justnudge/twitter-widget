@@ -123,7 +123,7 @@
             <widgetDef defId="Updates" url="{webresourcesSvcRef}/web/com.ibm.social.as.lconn/widgets/profilesActivityStream.xml?etag={version}" modes="view fullpage" 
                 helpLink="{helpSvcRef}/topic/com.ibm.lotus.connections.profiles.help/c_pers_profiles.html" />
 				
-			<widgetDef defId="com.justnudge.twitter" 
+			<widgetDef defId="jnTwitterWidget" 
 			           bundleRefId="jnmessages"
 			           url="https://github.com/justnudge/twitter-widget/raw/master/TwitterWidget.xml" 
 					   modes="view" />
@@ -134,7 +134,7 @@
 				<widgetInstance uiLocation="tabsWidget1" defIdRef="Updates"/>
                 <widgetInstance uiLocation="tabsWidget1" defIdRef="contactInfo"/>
                 <widgetInstance uiLocation="tabsWidget1" defIdRef="backgroundInfo"/>
-				<widgetInstance uiLocation="tabsWidget1" defIdRef="com.justnudge.twitter"/>
+				<widgetInstance uiLocation="tabsWidget1" defIdRef="jnTwitterWidget"/>
                 <!--<widgetInstance uiLocation="tabsWidget1" defIdRef="multiFeedReader"/>-->				
                 <widgetInstance uiLocation="col1" defIdRef="socialTags"/>
                 <widgetInstance uiLocation="col1" defIdRef="sand_thingsInCommon"/>

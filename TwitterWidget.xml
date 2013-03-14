@@ -17,7 +17,7 @@
     <iw:resource uri="twitter.css" />
     <iw:content mode="view">
         <![CDATA[
-    <div id="jnTwitterDIV"><img src='/jnWidgets/Twitter/loader.gif' /></div>
+    <div id="jnTwitterDIV"><img src='https://raw.github.com/justnudge/twitter-widget/master/loader.gif' /></div>
         ]]>
     </iw:content>
 </iw:iwidget>

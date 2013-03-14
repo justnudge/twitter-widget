@@ -93,7 +93,7 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 	
 	processError = function(data) {
 		this.log("In error callback: " + data);
-		var table = "<table><tr><td><img src='/jnWidgets/Twitter/status-error.png' alt='error' /></td>";
+		var table = "<table><tr><td><img src='https://raw.github.com/justnudge/twitter-widget/master/status-error.png' alt='error' /></td>";
 		table = table + "<td>" + this.getMessage("com.justnudge.common.error") + "</td></tr></table>";
 		this.updateWidget(table);
 	},
