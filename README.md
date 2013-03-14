@@ -37,7 +37,7 @@ In step 6 of the above link modify the file LotusConnections-config/profiles/tem
 
 When the server is restarted, the successful completion of this section can be verified by navigating to your profile and choosing "Edit".  The field should be displayed as follows:
 
-![Twitter field creation.](documentation\field-creation.png)
+![Twitter field creation.](https://raw.github.com/justnudge/twitter-widget/master/documentation/field-creation.png)
 
 Add widget to profile view page
 --------
