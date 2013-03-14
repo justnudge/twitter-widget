@@ -110,4 +110,4 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 		}
 		return message;
 	}
-}
+});
