@@ -1,30 +1,37 @@
 /**
- -------------------------------------------------------------------------------
- JUST NUDGE PTY LTD CONFIDENTIAL
- 2012 Just Nudge Pty Ltd 
- All Rights Reserved.
-  
- NOTICE:  All information contained herein is, and remains the 
- property of Just Nudge Pty Ltd and its suppliers, if any.  The 
- intellectual and technical concepts contained herein are proprietary 
- to Just Nudge Pty Ltd and are protected by trade secret or copyright
- law.  Dissemination of this information or reproduction of this material
- is strictly forbidden unless prior written permission is obtained from 
- Just Nudge Pty Ltd.
--------------------------------------------------------------------------------
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
  */
 dojo.provide("com.justnudge.lcc.TwitterWidget");
 dojo.require("dojox.xml.parser");
+dojo.require("dojo.i18n");
 dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 
 	widgetName: "TwitterWidget",
+	bundleName: "jnmessages",
+	imagePath: "",
 	
 	onLoad: function() {
-		this.log("Starting widget");
-		var userId = profilesData.displayedUser.userid;
-		var profileServiceDocumentURL = svcHrefProfiles + "/atom/profile.do?userid=" + userId;
-		this.log("Using Service Document URL: " + profileServiceDocumentURL);
 		try {
+			this.log("Starting widget");
+			this.init();
+			var userId = profilesData.displayedUser.userid;
+			var profileServiceDocumentURL = svcHrefProfiles + "/atom/profile.do?userid=" + userId;
+			this.log("Using Service Document URL: " + profileServiceDocumentURL);
 			var xhrArgs = { url: profileServiceDocumentURL, handleAs: "xml", preventCache: true };
 			var request = dojo.xhrGet(xhrArgs);
 			request.addCallback(this, "processXML");
@@ -66,7 +73,7 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 			this.log(extensionValue.length);
 			this.updateWidget("");
 			if (extensionValue.length == 0) {
-				this.updateWidget("<h3>" + this.getMessage("com.justnudge.twitter.noname") + "</h3>");
+				this.updateWidget("<h3>" + this.getMessage("jnTwitterNoName") + "</h3>");
 			} else {
 				jQuery(function($){
 					$("#jnTwitterDIV").tweet({
@@ -74,7 +81,7 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 						username: extensionValue,
 						avatar_size: 48,
 						count: 10,
-						loading_text: this.getMessage("com.justnudge.twitter.loading")
+						loading_text: this.getMessage("jnTwitterLoading")
 					});
 				});
 			}
@@ -91,21 +98,48 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 	
 	processError: function(data) {
 		this.log("In error callback: " + data);
-		var table = "<table><tr><td><img src='https://raw.github.com/justnudge/twitter-widget/master/status-error.png' alt='error' /></td>";
-		table = table + "<td>" + this.getMessage("com.justnudge.common.error") + "</td></tr></table>";
+		var table = "<table><tr><td><img src='" + this.imagePath + "status-error.png' alt='error' /></td>";
+		table = table + "<td>" + this.getMessage("jnCommonError") + "</td></tr></table>";
 		this.updateWidget(table);
+	},
+	
+	getMessage: function(key, replacement) {
+		this.log("getMessage: " + key + ", replacement=" + replacement);
+		try {
+			var message = dojo.i18n.getLocalization(this.widgetName, this.bundleName)[key];
+			if (replacement != null) {
+				message = message.replace("${0}", replacement);
+			}
+			return message;
+		} catch (e) {
+			return "Missing key: " + key;
+		}
+	},
+	
+	getItemValue: function(name) {
+		this.log("Getting item value=" + name);
+		return this.iContext.getiWidgetAttributes().getItemValue(name);
+	},
+	
+	rewriteURL: function(url) {
+		return this.iContext.io.rewriteURI(url);
+	},
+	
+	init: function() {
+		messagePath = this.getItemValue("messagesBaseURL");
+		this.imagePath = this.getItemValue("messagesBaseURL");
+		if (messagePath == null) {
+			messagePath = "https://raw.github.com/justnudge/messages/master";
+		}
+		if (this.imagePath == null) {
+			this.imagePath = "https://raw.github.com/justnudge/twitter-widget/master/";
+		}
+		this.log("messagePath=" + messagePath + ", bundleName=" + this.bundleName + ", imagePath=" + this.imagePath);
+		dojo.registerModulePath(this.widgetName, this.iContext.io.rewriteURI(messagePath));
+		dojo.requireLocalization(this.widgetName, this.bundleName);
 	},
 	
 	log: function(message) {
 		console.log(this.widgetName + ": " + message);
-	},
-	
-	getMessage: function(key, replacement) {
-		this.logEntering("getMessage: " + key + ", replacement=" + replacement);
-		var message = dojo.i18n.getLocalization("jnmessages")[key];
-		if (replacement != null) {
-			message = message.replace("${0}", replacement);
-		}
-		return message;
 	}
 });

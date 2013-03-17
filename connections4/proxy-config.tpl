@@ -378,7 +378,7 @@
         </proxy:headers>
     </proxy:policy>
 	
-	<proxy:policy url="https://github.com/*" acf="none" basic-auth-support="false" auth-support="false">
+	<proxy:policy url="https://raw.github.com/*" acf="none" basic-auth-support="false" auth-support="false">
 		<proxy:actions>
             <proxy:method>GET</proxy:method>
         </proxy:actions>

@@ -1,6 +1,12 @@
 Twitter widget for IBM Connections
 ========
+The Twitter Widget for IBM Connection is a widget that displays a user's twitter feed into their project in IBM Connections.  Once installed this widget looks like this:
 
+
+
+
+Installation
+===
 To install the Twitter Widget for IBM Connections you need to do the following:
 
 1. Add the Twitter field into the data model for the profiles.
@@ -8,7 +14,6 @@ To install the Twitter Widget for IBM Connections you need to do the following:
 3. Add the Twitter widget to the profile in view so that the twitter feed can be display.
 4. Create the messages files.
 5. Add the URL into the ajax proxy.
-5. Re-synchronize and restart the server.
 
 **NOTE:** A list of sample configuration files are included, showing their before and after appearance.  If you need assistance setting up the environment it is recommended that you download the files and diff them with each other (so that you can see the before and after) and also with your configuration.
 
@@ -63,7 +68,7 @@ The procedure for performing this operation is defined [here](http://www-10.lotu
 
 The change that needs to be made to the proxy-config.tpl is as follows:
 
-    <proxy:policy url="https://github.com/*" acf="none" basic-auth-support="false" auth-support="false">
+    <proxy:policy url="https://raw.github.com/*" acf="none" basic-auth-support="false" auth-support="false">
 		<proxy:actions>
             <proxy:method>GET</proxy:method>
         </proxy:actions>
@@ -85,5 +90,21 @@ Create the messages file
 --------
 Full details on how to use the messages file are available at [https://github.com/justnudge/messages](https://github.com/justnudge/messages "Messages").
 
-Resynchronize server
+Notes on installing the widget locally
 --------
+The widget can be run either from an external host (i.e. github) or from your own local servers.  In order to run from your own local server the following needs to be performed:
+
+- The twitter repository needs to be cloned onto a server that is accessible via HTTP (or preferably HTTPS).
+- The widget configuration needs to change to be as follows:
+
+        <widgetDef defId="jnTwitterWidget" 
+	               bundleRefId="jnmessages"
+	               url="/twitter-widget/TwitterWidget.xml" 
+			       modes="view">
+			<itemSet>
+				<item name="messagesBaseURL" value="https://connections4.justnudge.com/twitter-widget" />
+				<item name="imagesURL" value="https://connections4.justnudge.com/twitter-widget" />
+            </itemSet>
+        </widgetDef>
+
+Running the widget locally has the advantage of speed and security.
