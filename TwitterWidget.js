@@ -1,21 +1,21 @@
-/**
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
+/*******************************************************************************
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
 
-  http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
- */
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+******************************************************************************/
 dojo.provide("com.justnudge.lcc.TwitterWidget");
 dojo.require("dojox.xml.parser");
 dojo.require("dojo.i18n");
@@ -23,7 +23,8 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 
 	widgetName: "TwitterWidget",
 	bundleName: "jnmessages",
-	imagePath: "",
+	rootDiv: "jnTwitterDIV",
+	imageURI: "",
 	
 	onLoad: function() {
 		try {
@@ -56,9 +57,7 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 		this.log("Searching for extension URL, found links=" + links.length);
 		for (var i=0; i < links.length; i++) {
 			var link = links.item(i);
-			this.log("Found extension " + link.nodeName);
 			var extension = link.getAttribute("snx:extensionId");
-			this.log("Extension=" + extension);
 			if (extension == extensionName) {
 				return link.getAttribute("href");
 			}
@@ -70,18 +69,18 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 	processExtension: function(extensionValue) {
 		try {
 			this.log("Extension value=|" + extensionValue + "|");
-			this.log(extensionValue.length);
-			this.updateWidget("");
 			if (extensionValue.length == 0) {
 				this.updateWidget("<h3>" + this.getMessage("jnTwitterNoName") + "</h3>");
 			} else {
-				jQuery(function($){
+				this.updateWidget("");
+				var message = this.getMessage("jnTwitterLoading");
+				jQuery(function($) {
 					$("#jnTwitterDIV").tweet({
 						join_text: "auto",
 						username: extensionValue,
 						avatar_size: 48,
 						count: 10,
-						loading_text: this.getMessage("jnTwitterLoading")
+						loading_text: message
 					});
 				});
 			}
@@ -93,12 +92,13 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 	},
 	
 	updateWidget: function(message) {
-		var root = dojo.byId("jnTwitterDIV").innerHTML = message;
+		this.log(message);
+		dojo.byId(this.rootDiv).innerHTML = message;
 	},
 	
 	processError: function(data) {
 		this.log("In error callback: " + data);
-		var table = "<table><tr><td><img src='" + this.imagePath + "status-error.png' alt='error' /></td>";
+		var table = "<table><tr><td><img src='" + this.imageURI + "/status-error.png' alt='error' /></td>";
 		table = table + "<td>" + this.getMessage("jnCommonError") + "</td></tr></table>";
 		this.updateWidget(table);
 	},
@@ -125,17 +125,17 @@ dojo.declare("com.justnudge.lcc.TwitterWidget", null, {
 		return this.iContext.io.rewriteURI(url);
 	},
 	
+	displayLoader: function() {
+		this.log("Displaying loader");
+		this.updateWidget("<img src='" + this.imageURI + "/loader.gif' alt='Loading' />");
+	},
+	
 	init: function() {
-		messagePath = this.getItemValue("messagesBaseURL");
-		this.imagePath = this.getItemValue("messagesBaseURL");
-		if (messagePath == null) {
-			messagePath = "https://raw.github.com/justnudge/messages/master";
-		}
-		if (this.imagePath == null) {
-			this.imagePath = "https://raw.github.com/justnudge/twitter-widget/master/";
-		}
-		this.log("messagePath=" + messagePath + ", bundleName=" + this.bundleName + ", imagePath=" + this.imagePath);
-		dojo.registerModulePath(this.widgetName, this.iContext.io.rewriteURI(messagePath));
+		messageURI = this.getItemValue("messageURI");
+		this.imageURI = this.getItemValue("imageURI");
+		this.displayLoader();
+		this.log("messagePath=" + messageURI + ", bundleName=" + this.bundleName);
+		dojo.registerModulePath(this.widgetName, this.iContext.io.rewriteURI(messageURI));
 		dojo.requireLocalization(this.widgetName, this.bundleName);
 	},
 	
