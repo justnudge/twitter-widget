@@ -1,9 +1,10 @@
 Twitter widget for IBM Connections
 ========
-The Twitter Widget for IBM Connection is a widget that displays a user's twitter feed into their project in IBM Connections.  Once installed this widget looks like this:
+The Twitter Widget for IBM Connection is a widget that displays a user's twitter feed into their profile in IBM Connections.  Once installed this widget looks like this:
 
+![Twitter Widget](https://raw.github.com/justnudge/twitter-widget/master/documentation/example.png)
 
-
+To install the Twitter Widget for IBM Connections follow the instructions below.  Any questions please raise an [issue](https://github.com/justnudge/twitter-widget/issues) and we shall respond to it as soon as possible.
 
 Installation
 ===
@@ -53,7 +54,7 @@ The widget-config.xml needs two additions in the "profilesView" section create t
 
     <widgetDef defId="jnTwitterWidget" 
 			   bundleRefId="jnmessages"
-			   url="https://github.com/justnudge/twitter-widget/raw/master/TwitterWidget.xml" 
+			   url="https://raw.github.com/justnudge/twitter-widget/master/TwitterWidget.xml" 
 			   modes="view" />
 
 And then add the widget to the page:
@@ -61,6 +62,8 @@ And then add the widget to the page:
     <widgetInstance uiLocation="tabsWidget1" defIdRef="jnTwitterWidget"/>
 
 See the widget-config.xml file for more information.
+
+**NOTE:** The widget can also be deployed locally, for further details see the section "Notes on installing the widget locally".
 
 Add the URL into the ajax proxy.
 --
@@ -102,7 +105,7 @@ The widget can be run either from an external host (i.e. github) or from your ow
 	               url="/twitter-widget/TwitterWidget.xml" 
 			       modes="view">
 			<itemSet>
-				<item name="messagesBaseURL" value="https://connections4.justnudge.com/twitter-widget" />
+				<item name="messagesBaseURL" value="https://connections4.justnudge.com/jnmessages" />
 				<item name="imagesURL" value="https://connections4.justnudge.com/twitter-widget" />
             </itemSet>
         </widgetDef>
