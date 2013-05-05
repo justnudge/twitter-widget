@@ -40,7 +40,7 @@ In the profile-types.xml file add the following xml stanza at the end.
 
 In step 6 of the above link modify the file LotusConnections-config/profiles/template/profileEdit.tfl and add the following stanza:
 
-    <@util.renderFormControl ref="twitterName" singleColumnLayout=false nlsBundle="jnmessages" nlsKey="com.justnudge.twitter.field"/>
+    <@util.renderFormControl ref="twitterName" singleColumnLayout=false nlsBundle="jnmessages" nlsKey="jnTwitterWidget"/>
 
 When the server is restarted, the successful completion of this section can be verified by navigating to your profile and choosing "Edit".  The field should be displayed as follows:
 
